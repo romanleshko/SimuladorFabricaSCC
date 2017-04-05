@@ -2,68 +2,69 @@
 # encoding: utf-8
 import eventos
 
+
 class Fila:
-	"""Classe que representa um serviço com uma fila de espera associada"""
+    # """Classe que representa um serviï¿½o com uma fila de espera associada"""
 
-	# Construtor
-	def __init__(self, sim):
-		self.fila=[]				#Fila de espera do serviço
-		self.simulator = sim		#Referência para o simulador a que pertence o serviço
-		self.estado = 0			#Variável que regista o estado do serviço: 0 - livre; 1 - ocupado
-		self.temp_last = sim.instant	#Tempo que passou desde o último evento. Neste caso 0, porque a simulação ainda não começou.
-		self.atendidos = 0		#Número de clientes atendidos até ao momento
-		self.soma_temp_esp = 0
-		self.soma_temp_serv = 0
+    # Construtor
+    def __init__(self, sim):
+        self.fila = []  # Fila de espera do serviï¿½o
+        self.simulator = sim  # Referï¿½ncia para o simulador a que pertence o serviï¿½o
+        self.estado = 0  # Variï¿½vel que regista o estado do serviï¿½o: 0 - livre; 1 - ocupado
+        self.temp_last = sim.instant  # Tempo que passou desde o ï¿½ltimo evento. Neste caso 0, porque a simulaï¿½ï¿½o ainda nï¿½o comeï¿½ou.
+        self.atendidos = 0  # Nï¿½mero de clientes atendidos atï¿½ ao momento
+        self.soma_temp_esp = 0
+        self.soma_temp_serv = 0
 
-	def insereClient(self,client):
-		"""Método que insere cliente (client) no serviço"""
-		if(self.estado==0):	#Se serviço livre,
-			self.estado = self.estado+1 #fica ocupado e
-			#agenda saída do cliente c para daqui a self.simulator.media_serv instantes
-			self.simulator.insereEvento(eventos.Saida(self.simulator.instant + self.simulator.media_serv,self.simulator))
-		else:
-			self.fila.append(client) #Se serviço ocupado, o cliente vai para a fila de espera
+    def insereClient(self, client):
+        # """Mï¿½todo que insere cliente (client) no serviï¿½o"""
+        if (self.estado == 0):  # Se serviï¿½o livre,
+            self.estado = self.estado + 1  # fica ocupado e
+            # agenda saï¿½da do cliente c para daqui a self.simulator.media_serv instantes
+            self.simulator.insereEvento(
+                eventos.Saida(self.simulator.instant + self.simulator.media_serv, self.simulator))
+        else:
+            self.fila.append(client)  # Se serviï¿½o ocupado, o cliente vai para a fila de espera
 
-	
-	def removeClient(self):
-		"""Método que remove cliente do serviço"""
-		self.atendidos = self.atendidos+1 #Regista que acabou de atender + 1 cliente
-		if(self.fila==[]):	#Se a fila está vazia,
-			self.estado=self.estado-1	# liberta o serviço
-		else: #Se não,
-			#vai buscar próximo cliente à fila de espera e
-			self.fila.pop(0)
-			#agenda a sua saida para daqui a self.simulator.media_serv instantes
-			self.simulator.insereEvento(eventos.Saida(self.simulator.instant + self.simulator.media_serv,self.simulator))
+    def removeClient(self):
+        # """Mï¿½todo que remove cliente do serviï¿½o"""
+        self.atendidos = self.atendidos + 1  # Regista que acabou de atender + 1 cliente
+        if (self.fila == []):  # Se a fila estï¿½ vazia,
+            self.estado = self.estado - 1  # liberta o serviï¿½o
+        else:  # Se nï¿½o,
+            # vai buscar prï¿½ximo cliente ï¿½ fila de espera e
+            self.fila.pop(0)
+            # agenda a sua saida para daqui a self.simulator.media_serv instantes
+            self.simulator.insereEvento(
+                eventos.Saida(self.simulator.instant + self.simulator.media_serv, self.simulator))
 
-	def act_stats(self):
-		"""Método que calcula valores para estatísticas, em cada passo da simulação ou evento"""
-		#Calcula tempo que passou desde o último evento
-		temp_desd_ult=self.simulator.instant - self.temp_last
-		#Actualiza variável para o próximo passo/evento
-		self.temp_last=self.simulator.instant
-		#Contabiliza tempo de espera na fila
-		#para todos os clientes que estiveram na fila durante o intervalo
-		self.soma_temp_esp = self.soma_temp_esp + (len(self.fila) * temp_desd_ult)
-		#Contabiliza tempo de atendimento
-		self.soma_temp_serv = self.soma_temp_serv + (self.estado * temp_desd_ult)
-	
-	def relat(self):
-		"""Método que calcula valores finais estatísticos"""
-		#Tempo médio de espera na fila
-		temp_med_fila = self.soma_temp_esp / (self.atendidos+len(self.fila))
-		#Comprimento médio da fila de espera
-		#self.simulator.instant neste momento é o valor do tempo de simulação,
-		#uma vez que a simulação começou em 0 e este método só é chamdo no fim da simulação
-		comp_med_fila = self.soma_temp_esp / self.simulator.instant
-		#Tempo médio de atendimento no serviço
-		utilizacao_serv = self.soma_temp_serv / self.simulator.instant
-		
-		#Apresenta resultados
-		print "Tempo medio de espera",temp_med_fila
-		print "Comp. medio da fila",comp_med_fila
-		print "Utilizacao do servico",utilizacao_serv
-		print "Tempo de simulacao",self.simulator.instant
-		print "Numero de clientes atendidos", self.atendidos
-		print "Numero de clientes na fila", len(self.fila)
+    def act_stats(self):
+        # """Mï¿½todo que calcula valores para estatï¿½sticas, em cada passo da simulaï¿½ï¿½o ou evento"""
+        # Calcula tempo que passou desde o ï¿½ltimo evento
+        temp_desd_ult = self.simulator.instant - self.temp_last
+        # Actualiza variï¿½vel para o prï¿½ximo passo/evento
+        self.temp_last = self.simulator.instant
+        # Contabiliza tempo de espera na fila
+        # para todos os clientes que estiveram na fila durante o intervalo
+        self.soma_temp_esp = self.soma_temp_esp + (len(self.fila) * temp_desd_ult)
+        # Contabiliza tempo de atendimento
+        self.soma_temp_serv = self.soma_temp_serv + (self.estado * temp_desd_ult)
 
+    def relat(self):
+        # """Mï¿½todo que calcula valores finais estatï¿½sticos"""
+        # Tempo mï¿½dio de espera na fila
+        temp_med_fila = self.soma_temp_esp / (self.atendidos + len(self.fila))
+        # Comprimento mï¿½dio da fila de espera
+        # self.simulator.instant neste momento ï¿½ o valor do tempo de simulaï¿½ï¿½o,
+        # uma vez que a simulaï¿½ï¿½o comeï¿½ou em 0 e este mï¿½todo sï¿½ ï¿½ chamdo no fim da simulaï¿½ï¿½o
+        comp_med_fila = self.soma_temp_esp / self.simulator.instant
+        # Tempo mï¿½dio de atendimento no serviï¿½o
+        utilizacao_serv = self.soma_temp_serv / self.simulator.instant
+
+        # Apresenta resultados
+        print("Tempo medio de espera", temp_med_fila)
+        print("Comp. medio da fila", comp_med_fila)
+        print("Utilizacao do servico", utilizacao_serv)
+        print("Tempo de simulacao", self.simulator.instant)
+        print("Numero de clientes atendidos", self.atendidos)
+        print("Numero de clientes na fila", len(self.fila))

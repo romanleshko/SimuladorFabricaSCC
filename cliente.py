@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 class Client:
-	"""Classe que representa um cliente
-	Como são indistintos neste exemplo, está vazia"""
+	# """Classe que representa um cliente
+	# Como sï¿½o indistintos neste exemplo, estï¿½ vazia"""
 	pass

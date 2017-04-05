@@ -4,57 +4,56 @@ import fila
 import lista
 import eventos
 
+
 class Simulador:
-	
-	def insereEvento(self,event):
-		self.event_list.insert_event(event)
+    def insereEvento(self, event):
+        self.event_list.insert_event(event)
 
-	#Construtor
-	def __init__(self):
-		#Médias das distribuições de chegadas e de atendimento no serviço
-		self.media_cheg = 1
-		self.media_serv = 1.5
-		#Número de clientes que vão ser atendidos
-		self.n_clientes = 100
-		
-		#Relógio de simulação - variável que contém o valor do tempo em cada instante
-		self.instant = 0		#valor inicial a zero		
-		
-		#Serviço - pode haver mais do que um num simulador
-		self.client_queue= fila.Fila(self)
-		#Lista de eventos - onde ficam registados todos os eventos que vão ocorrer na simulação
-		#Cada simulador só tem uma
-		self.event_list = lista.Lista(self)
-		
-		#Agendamento da primeira chegada
-		#Se não for feito, o simulador não tem eventos para simular
-		self.insereEvento(eventos.Chegada(self.instant, self))
-	
-	def executa(self):
-		"""Método executivo do simulador"""
-		#Enquanto não atender todos os clientes
-		while(self.client_queue.atendidos < self.n_clientes):
-			print self.event_list #Mostra lista de eventos - desnecessário; é apenas informativo
-			event = self.event_list.remove_event()	#Retira primeiro evento (é o mais iminente) da lista de eventos
-			self.instant = event.instant			#Actualiza relógio de simulação
-			self.act_stats()					#Actualiza valores estatísticos
-			event.executa(self.client_queue)		#Executa evento
-		self.relat() #Apresenta resultados de simulação finais
+    # Construtor
+    def __init__(self):
+        # Mï¿½dias das distribuiï¿½ï¿½es de chegadas e de atendimento no serviï¿½o
+        self.media_cheg = 1
+        self.media_serv = 1.5
+        # Nï¿½mero de clientes que vï¿½o ser atendidos
+        self.n_clientes = 100
 
-	def act_stats(self):
-		"""Método que actualiza os valores estatísticos do simulador"""
-		self.client_queue.act_stats()
+        # Relï¿½gio de simulaï¿½ï¿½o - variï¿½vel que contï¿½m o valor do tempo em cada instante
+        self.instant = 0  # valor inicial a zero
 
-	def relat(self):
-		"""Método que apresenta os resultados de simulação finais"""
-		print "\n\n------------FINAL RESULTS---------------\n\n"
-		self.client_queue.relat()
+        # Serviï¿½o - pode haver mais do que um num simulador
+        self.client_queue = fila.Fila(self)
+        # Lista de eventos - onde ficam registados todos os eventos que vï¿½o ocorrer na simulaï¿½ï¿½o
+        # Cada simulador sï¿½ tem uma
+        self.event_list = lista.Lista(self)
 
+        # Agendamento da primeira chegada
+        # Se nï¿½o for feito, o simulador nï¿½o tem eventos para simular
+        self.insereEvento(eventos.Chegada(self.instant, self))
+
+    def executa(self):
+        """Mï¿½todo executivo do simulador"""
+        # Enquanto nï¿½o atender todos os clientes
+        while (self.client_queue.atendidos < self.n_clientes):
+            print (self.event_list)  # Mostra lista de eventos - desnecessï¿½rio; ï¿½ apenas informativo
+            event = self.event_list.remove_event()  # Retira primeiro evento (ï¿½ o mais iminente) da lista de eventos
+            self.instant = event.instant  # Actualiza relï¿½gio de simulaï¿½ï¿½o
+            self.act_stats()  # Actualiza valores estatï¿½sticos
+            event.executa(self.client_queue)  # Executa evento
+        self.relat()  # Apresenta resultados de simulaï¿½ï¿½o finais
+
+    def act_stats(self):
+        """Mï¿½todo que actualiza os valores estatï¿½sticos do simulador"""
+        self.client_queue.act_stats()
+
+    def relat(self):
+        """Mï¿½todo que apresenta os resultados de simulaï¿½ï¿½o finais"""
+        print ("\n\n------------FINAL RESULTS---------------\n\n")
+        self.client_queue.relat()
 
 
-#programa principal
+# programa principal
 
-#Cria um simulador e
+# Cria um simulador e
 s = Simulador()
-#põe-o em marcha
+# pï¿½e-o em marcha
 s.executa()

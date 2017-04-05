@@ -3,12 +3,12 @@
 import random
 import math
 
-# Classe para geração de números aleatórios segundos várias distribuições
-# Apenas a distribuição exponencial negativa está definida
+# Classe para geraï¿½ï¿½o de nï¿½meros aleatï¿½rios segundos vï¿½rias distribuiï¿½ï¿½es
+# Apenas a distribuiï¿½ï¿½o exponencial negativa estï¿½ definida
 
 
 def exponencial(media):
-	"""Gera um número segundo uma distribuição exponencial negativa de média m"""
+	# """Gera um nï¿½mero segundo uma distribuiï¿½ï¿½o exponencial negativa de mï¿½dia m"""
 	return (-media*math.log(random.random()))
 
 #print Aleatorio().exponencial(2) #test
