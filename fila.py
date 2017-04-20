@@ -8,7 +8,7 @@ class Fila:
     # """Classe que representa um serviço com uma fila de espera associada"""
 
     # Construtor
-    def __init__(self, sim, nome, prox_fila = None):
+    def __init__(self, sim, nome, seed, prox_fila = None):
         self.fila = []  # Fila de espera do serviço
         self.simulator = sim  # Referência para o simulador a que pertence o servi�o
         self.estado = 0  # Vari�vel que regista o estado do servi�o: 0 - livre; 1 - ocupado
@@ -18,6 +18,7 @@ class Fila:
         self.soma_temp_serv = 0
         self.nome = nome
         self.prox_fila = prox_fila
+        self.seed = seed
 
     def num_servicos(self, client):
         if self.nome == 'perfuracao':
@@ -51,7 +52,7 @@ class Fila:
             tmp_serv = self.tmp_serv(client)
 
             self.simulator.insereEvento(
-                    eventos.Saida(self.simulator.instant + aleatorio.normal(tmp_serv), self.simulator, self, client))
+                    eventos.Saida(self.simulator.instant + aleatorio.normal(self.seed, tmp_serv), self.simulator, self, client))
         else:
             self.fila.append(client)  # Se servi�o ocupado, o cliente vai para a fila de espera
 
@@ -70,7 +71,7 @@ class Fila:
             cl = self.fila.pop(0)
             # agenda a sua saida para daqui a self.simulator.media_serv instantes
             self.simulator.insereEvento(
-                eventos.Saida(self.simulator.instant + aleatorio.normal(self.tmp_serv(cl)), self.simulator, fila, peca))
+                eventos.Saida(self.simulator.instant + aleatorio.normal(self.seed, self.tmp_serv(cl)), self.simulator, fila, peca))
 
     def act_stats(self):
         # """Método que calcula valores para estat�sticas, em cada passo da simula��o ou evento"""

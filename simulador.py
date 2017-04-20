@@ -20,13 +20,13 @@ class Simulador:
         self.instant = 0  # valor inicial a zero
 
         # Serviço - pode haver mais do que um num simulador
-        self.fila_envernizamento = fila.Fila(self, 'envernizamento')
+        self.fila_envernizamento = fila.Fila(self, 'envernizamento', seed=3)
 
-        self.fila_polimento_A = fila.Fila(self, 'polimento', self.fila_envernizamento)
-        self.fila_polimento_B = fila.Fila(self, 'polimento', self.fila_envernizamento)
+        self.fila_polimento_A = fila.Fila(self, 'polimento', 4, self.fila_envernizamento)
+        self.fila_polimento_B = fila.Fila(self, 'polimento', 5, self.fila_envernizamento)
 
-        self.fila_perfuracao_A = fila.Fila(self, 'perfuracao', self.fila_polimento_A)
-        self.fila_perfuracao_B = fila.Fila(self, 'perfuracao', self.fila_polimento_B)
+        self.fila_perfuracao_A = fila.Fila(self, 'perfuracao', 6, self.fila_polimento_A)
+        self.fila_perfuracao_B = fila.Fila(self, 'perfuracao', 7, self.fila_polimento_B)
         # Lista de eventos - onde ficam registados todos os eventos que vão ocorrer na simulação
         # Cada simulador só tem uma
         self.event_list = lista.Lista(self)
@@ -35,13 +35,13 @@ class Simulador:
         # Se n�o for feito, o simulador n�o tem eventos para simular
         self.insereEvento(eventos.Chegada(self.instant, self, self.fila_perfuracao_A, pecaA))
         self.insereEvento(eventos.Chegada(self.instant, self, self.fila_perfuracao_B, pecaB))
-
+        print(self.event_list)
 
     def executa(self):
         """M�todo executivo do simulador"""
         # Enquanto n�o atender todos os clientes
         while (self.fila_envernizamento.atendidos < self.n_clientes):
-            #print (self.event_list)  # Mostra lista de eventos - desnecessário; é apenas informativo
+            print (self.event_list)  # Mostra lista de eventos - desnecessário; é apenas informativo
             event = self.event_list.remove_event()  # Retira primeiro evento (é o mais iminente) da lista de eventos
             self.instant = event.instant  # Actualiza relógio de simulação
             self.act_stats(event.fila)  # Actualiza valores estatísticos
@@ -75,7 +75,7 @@ polA = [4, 1.2]
 envA = [1.4, 0.3]
 n_ser_perfA = 1
 n_ser_polA = 1
-n_ser_envA = 2
+
 
 chegB = 1.33
 perfB = [0.75, 0.3]
@@ -83,7 +83,8 @@ polB = [3, 1]
 envB = [1.4, 0.3]
 n_ser_perfB = 1
 n_ser_polB = 2
-n_ser_envB = 2
+
+n_ser_env = 2
 
 #chegA = 5
 #perfA = [1, 0.2]
@@ -100,8 +101,8 @@ n_ser_envB = 2
 #n_ser_polB = 2
 #n_ser_envB = 2
 
-pecaA = cliente.PecaA(chegA, perfA, polA, envA, n_ser_perfA, n_ser_polA, n_ser_envA)
-pecaB = cliente.PecaB(chegB, perfB, polB, envB, n_ser_perfB, n_ser_polB, n_ser_envB)
+pecaA = cliente.PecaA(chegA, perfA, polA, envA, n_ser_perfA, n_ser_polA, n_ser_env)
+pecaB = cliente.PecaB(chegB, perfB, polB, envB, n_ser_perfB, n_ser_polB, n_ser_env)
 
 # Cria um simulador e
 s = Simulador(pecaA, pecaB)
