@@ -36,7 +36,7 @@ class Simulador:
         # Se n�o for feito, o simulador n�o tem eventos para simular
         self.insereEvento(eventos.Chegada(self.instant, self, self.fila_perfuracao_A, pecaA))
         self.insereEvento(eventos.Chegada(self.instant, self, self.fila_perfuracao_B, pecaB))
-        print(self.event_list)
+
 
     def executa(self, t):
 
@@ -63,19 +63,36 @@ class Simulador:
 
     def relat(self):
         """M�todo que apresenta os resultados de simula��o finais"""
-        print ("\n\n------------FINAL RESULTS PECA A---------------\n\n")
+        print ("\n------------FINAL RESULTS PECA A---------------")
         self.fila_perfuracao_A.relat()
         self.fila_polimento_A.relat()
-        print("\n\n------------FINAL RESULTS PECA B---------------\n\n")
+        print("\n\n------------FINAL RESULTS PECA B---------------")
         self.fila_perfuracao_B.relat()
         self.fila_polimento_B.relat()
-        print("\n\n------------FINAL RESULTS ENVERNIZAMENTO---------------\n\n")
+        print("\n\n------------FINAL RESULTS ENVERNIZAMENTO---------------")
         self.fila_envernizamento.relat()
 
 
 #programa principal
 
 #dados originais
+chegA = 5
+perfA = [2, 0.7]
+polA = [4, 1.2]
+envA = [1.4, 0.3]
+n_ser_perfA = 1
+n_ser_polA = 1
+
+
+chegB = 1.33
+perfB = [0.75, 0.3]
+polB = [3, 1]
+envB = [1.4, 0.3]
+n_ser_perfB = 1
+n_ser_polB = 2
+
+n_ser_env = 2
+
 #chegA = 5
 #perfA = [2, 0.7]
 #polA = [4, 1.2]
@@ -92,22 +109,6 @@ class Simulador:
 #n_ser_polB = 2
 #
 #n_ser_env = 2
-
-chegA = 5
-perfA = [1, 0.2]
-polA = [1, 0.2]
-envA = [1.4, 0.3]
-n_ser_perfA = 1
-n_ser_polA = 1
-
-chegB = 5
-perfB = [1, 0.2]
-polB = [1, 0.2]
-envB = [1.4, 0.3]
-n_ser_perfB = 1
-n_ser_polB = 1
-
-n_ser_env = 2
 
 pecaA = cliente.PecaA(chegA, perfA, polA, envA, n_ser_perfA, n_ser_polA, n_ser_env)
 pecaB = cliente.PecaB(chegB, perfB, polB, envB, n_ser_perfB, n_ser_polB, n_ser_env)
