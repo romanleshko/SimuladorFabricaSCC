@@ -47,7 +47,6 @@ class Simulador:
         """M�todo executivo do simulador"""
         # Enquanto n�o atender todos os clientes
         #while (self.fila_envernizamento.atendidos < self.n_clientes):
-        #while (int(time.time()) - t_inicial) < t:
         while self.instant < t:
             #print (self.event_list)  # Mostra lista de eventos - desnecessário; é apenas informativo
             event = self.event_list.remove_event()  # Retira primeiro evento (é o mais iminente) da lista de eventos
@@ -100,14 +99,15 @@ n_ser_env = 2
 #envA = [1.4, 0.3]
 #n_ser_perfA = 1
 #n_ser_polA = 1
-#n_ser_envA = 2
-#chegB = 1.33
-#perfB = [0.75, 0.3]
-#polB = [0.75, 0.3]
+#
+#chegB = 5
+#perfB = [1, 0.2]
+#polB = [1, 0.2]
 #envB = [1.4, 0.3]
 #n_ser_perfB = 1
-#n_ser_polB = 2
-#n_ser_envB = 2
+#n_ser_polB = 1
+#
+#n_ser_env = 2
 
 pecaA = cliente.PecaA(chegA, perfA, polA, envA, n_ser_perfA, n_ser_polA, n_ser_env)
 pecaB = cliente.PecaB(chegB, perfB, polB, envB, n_ser_perfB, n_ser_polB, n_ser_env)
