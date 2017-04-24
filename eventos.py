@@ -44,7 +44,7 @@ class Chegada(Evento):
 		#Coloca cliente no serviço - na fila ou a ser atendido, conforme o caso
 		self.fila.insereClient(self.peca)
 		#Agenda nova chegada para daqui a aleatorio.exponencial(self.simulator.media_cheg) instantes
-		self.simulator.insereEvento(Chegada(self.simulator.instant+aleatorio.exponencial(self.peca.seed, self.peca.media_cheg),self.simulator,
+		self.simulator.insereEvento(Chegada(self.simulator.instant+aleatorio.Aleatorio().exponencial(self.peca.seed, self.peca.media_cheg),self.simulator,
 											self.fila, self.peca))
 
 

@@ -72,8 +72,7 @@ def randgt(stream):
     return zrng[stream]
 
 #validate...
-seed=1
-
-print (rand(seed))
-print (rand(seed))
+#seed=1
+#
+#print (rand(seed))
 
