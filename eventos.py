@@ -39,7 +39,7 @@ class Chegada(Evento):
 		return "Chegada\t["+str(self.instant)+"]"
 
 	def executa(self):
-
+		self.fila.act_stats()
 		# """Método que executa as acções correspondentes à chegada de um cliente"""
 		#Coloca cliente no serviço - na fila ou a ser atendido, conforme o caso
 		self.fila.insereClient(self.peca)
@@ -62,7 +62,7 @@ class Saida(Evento):
 
 	
 	def executa(self):
-
+		self.fila.act_stats()
 		# """Método que executa as acções correspondentes é saída de um cliente"""
-		self.fila.removeClient(self.fila, self.peca) #Retira cliente do serviço
+		self.fila.removeClient(self.peca) #Retira cliente do serviço
 

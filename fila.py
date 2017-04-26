@@ -8,8 +8,8 @@ class Fila:
     # """Classe que representa um serviço com uma fila de espera associada"""
 
     # Construtor
-    def __init__(self, sim, nome, seed, prox_fila = None):
-
+    def __init__(self, sim, nome, seed, serv, prox_fila = None):
+        self.serv = serv
         self.fila = []  # Fila de espera do serviço
         self.simulator = sim  # Referência para o simulador a que pertence o servi�o
         self.estado = 0  # Vari�vel que regista o estado do servi�o: 0 - livre; 1 - ocupado
@@ -43,6 +43,7 @@ class Fila:
             return client.evernizamento
 
     def insereClient(self, client):
+        self.act_stats()
         # """Método que insere cliente (client) no servi�o"""
         
         if (self.estado < self.num_servicos(client)): # Se servi�o livre,
@@ -58,24 +59,33 @@ class Fila:
         else:
             self.fila.append(client)  # Se servi�o ocupado, o cliente vai para a fila de espera
 
-    def removeClient(self, fila, peca):
 
+    def removeClient(self, peca):
+        self.act_stats()
         # """Método que remove cliente do serviço"""
         self.atendidos = self.atendidos + 1  # Regista que acabou de atender + 1 cliente
 
         if self.prox_fila:
+            self.prox_fila.act_stats()
             self.prox_fila.insereClient(peca)
 
         if (self.fila == []):  # Se a fila est� vazia,
             self.estado = self.estado - 1  # liberta o servi�o
-        else:  # Se não,
+        else: # Se não,
+
             # vai buscar pr�ximo cliente � fila de espera e
             cl = self.fila.pop(0)
             # agenda a sua saida para daqui a self.simulator.media_serv instantes
             al = aleatorio.Aleatorio().normal(self.seed, self.tmp_serv(cl))
-            #print('Valor aleatório: ', al)
+
             self.simulator.insereEvento(
-                eventos.Saida(self.simulator.instant + al, self.simulator, fila, peca))
+                eventos.Saida(self.simulator.instant + al, self.simulator, self, peca))
+
+
+    def isBusy(self):
+        if self.estado >= 1:
+            return 1
+        return 0
 
     def act_stats(self):
         # """Método que calcula valores para estat�sticas, em cada passo da simula��o ou evento"""
@@ -98,7 +108,7 @@ class Fila:
         # uma vez que a simula��o come�ou em 0 e este método s� � chamdo no fim da simula��o
         comp_med_fila = self.soma_temp_esp / self.simulator.instant
         # Tempo m�dio de atendimento no servi�o
-        utilizacao_serv = self.soma_temp_serv / self.simulator.instant
+        utilizacao_serv = (self.soma_temp_serv / self.simulator.instant)/self.serv
 
         # Apresenta resultados
         print("\nFila ", self.nome)

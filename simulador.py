@@ -15,19 +15,17 @@ class Simulador:
     # Construtor
     def __init__(self, pecaA, pecaB):
 
-        self.n_clientes = 100
-
         # Relógio de simulação - variável que contém o valor do tempo em cada instante
         self.instant = 0  # valor inicial a zero
 
         # Serviço - pode haver mais do que um num simulador
-        self.fila_envernizamento = fila.Fila(self, 'envernizamento', seed=3)
+        self.fila_envernizamento = fila.Fila(self, 'envernizamento', 3, pecaA.n_servicos_envernizamento)
 
-        self.fila_polimento_A = fila.Fila(self, 'polimento', 4, self.fila_envernizamento)
-        self.fila_polimento_B = fila.Fila(self, 'polimento', 5, self.fila_envernizamento)
+        self.fila_polimento_A = fila.Fila(self, 'polimento', 4, pecaA.n_servicos_polimento, self.fila_envernizamento)
+        self.fila_polimento_B = fila.Fila(self, 'polimento', 5, pecaB.n_servicos_polimento, self.fila_envernizamento)
 
-        self.fila_perfuracao_A = fila.Fila(self, 'perfuracao', 6, self.fila_polimento_A)
-        self.fila_perfuracao_B = fila.Fila(self, 'perfuracao', 7, self.fila_polimento_B)
+        self.fila_perfuracao_A = fila.Fila(self, 'perfuracao', 6, pecaA.n_servicos_perfuracao, self.fila_polimento_A)
+        self.fila_perfuracao_B = fila.Fila(self, 'perfuracao',7, pecaB.n_servicos_perfuracao, self.fila_polimento_B)
         # Lista de eventos - onde ficam registados todos os eventos que vão ocorrer na simulação
         # Cada simulador só tem uma
         self.event_list = lista.Lista(self)
@@ -47,7 +45,8 @@ class Simulador:
         """M�todo executivo do simulador"""
         # Enquanto n�o atender todos os clientes
         #while (self.fila_envernizamento.atendidos < self.n_clientes):
-        while self.instant < t:
+        while self.instant < t  :
+
             #print (self.event_list)  # Mostra lista de eventos - desnecessário; é apenas informativo
             event = self.event_list.remove_event()  # Retira primeiro evento (é o mais iminente) da lista de eventos
             self.instant = event.instant  # Actualiza relógio de simulação
@@ -79,7 +78,7 @@ class Simulador:
 chegA = 5
 perfA = [2, 0.7]
 polA = [4, 1.2]
-envA = [1.4, 0.3]
+
 n_ser_perfA = 1
 n_ser_polA = 1
 
@@ -87,10 +86,10 @@ n_ser_polA = 1
 chegB = 1.33
 perfB = [0.75, 0.3]
 polB = [3, 1]
-envB = [1.4, 0.3]
 n_ser_perfB = 1
 n_ser_polB = 2
 
+env = [1.4, 0.3]
 n_ser_env = 2
 
 #chegA = 5
@@ -101,17 +100,17 @@ n_ser_env = 2
 #n_ser_polA = 1
 #
 #
-#chegB = 1.33
-#perfB = [0.75, 0.3]
-#polB = [3, 1]
+#chegB = 5
+#perfB = [2, 0.7]
+#polB = [4, 1.2]
 #envB = [1.4, 0.3]
-#n_ser_perfB = 1
+#n_ser_perfB = 2
 #n_ser_polB = 2
 #
 #n_ser_env = 2
 
-pecaA = cliente.PecaA(chegA, perfA, polA, envA, n_ser_perfA, n_ser_polA, n_ser_env)
-pecaB = cliente.PecaB(chegB, perfB, polB, envB, n_ser_perfB, n_ser_polB, n_ser_env)
+pecaA = cliente.PecaA(chegA, perfA, polA, env, n_ser_perfA, n_ser_polA, n_ser_env)
+pecaB = cliente.PecaB(chegB, perfB, polB, env, n_ser_perfB, n_ser_polB, n_ser_env)
 
 #tempo de simulação em minutos
 t = 8*20*60

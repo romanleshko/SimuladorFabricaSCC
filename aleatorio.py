@@ -25,12 +25,12 @@ class Aleatorio:
 	def normal(self, seed, vals):
 
 		if Aleatorio.rX2 and seed == Aleatorio.seed:
-			#print('Aleatório rX2: ', Aleatorio.nX2)
+
 			Aleatorio.rX2 = False
 			return Aleatorio.nX2
 
 		Aleatorio.seed = seed
-		#print('SEED: ', seed)
+
 		i = random.randint(0,1)
 		m = vals[0]
 		d = vals[1]
