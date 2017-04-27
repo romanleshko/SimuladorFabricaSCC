@@ -12,6 +12,6 @@ for i in range(ciclos):
 for i in range(ciclos):
 	listNormal.append(Aleatorio().normal(random.randint(0, 99), [200, 15]))
 
-plt.hist(listExponencial)
-plt.hist(listNormal)
+plt.hist(listExponencial, 100)
+plt.hist(listNormal, 100)
 plt.show()
