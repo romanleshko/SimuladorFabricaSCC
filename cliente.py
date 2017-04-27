@@ -20,7 +20,7 @@ class PecaA(Peca):
 		self.n_servicos_polimento = n_serv_pol
 		self.n_servicos_envernizamento = n_serv_env
 		self.nome = 'PECA A'
-		self.seed = 1
+		self.seed = 0
 
 class PecaB(Peca):
 
@@ -30,5 +30,5 @@ class PecaB(Peca):
 		self.n_servicos_polimento = n_serv_pol
 		self.n_servicos_envernizamento = n_serv_env
 		self.nome = 'PECA B'
-		self.seed = 2
+		self.seed = 15
 
