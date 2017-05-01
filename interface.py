@@ -1,35 +1,51 @@
 from tkinter import *
 
 import simulador
+import fila
+
 
 class Application(Frame):
     def __init__(self, master=None):
         """ Initialize the frame. """
         super(Application, self).__init__(master)
-        self.grid()
         Frame.__init__(self, master)
         self.pack()
 
 
 def save():
-    simulador.chegA = mediaChegA.get()
-    simulador.chegB = mediaChegB.get()
-    simulador.perfA[0] = mediaPerfA.get()
-    simulador.perfB[0] = mediaPerfB.get()
-    simulador.perfA[1] = desvioPerfA.get()
-    simulador.perfB[1] = desvioPerfB.get()
-    simulador.env[0] = mediaEnv.get()
-    simulador.env[1] = desvioEnv.get()
-    simulador.n_ser_perfA = nServPerfA.get()
-    simulador.n_ser_polA = nServPolA.get()
-    simulador.n_ser_perfB = nServPerfB.get()
-    simulador.n_ser_polB = nServPolB.get()
-    simulador.n_ser_env = nServEnv.get()
-    simulador.polA[0] = mediaPolA.get()
-    simulador.polA[1] = desvioPolA.get()
-    simulador.polB[0] = mediaPolB.get()
-    simulador.polB[1] = desvioPolB.get()
+    simulador.chegA = float(mediaChegA.get())
+    simulador.chegB = float(mediaChegB.get())
+    simulador.perfA[0] = float(mediaPerfA.get())
+    simulador.perfB[0] = float(mediaPerfB.get())
+    simulador.perfA[1] = float(desvioPerfA.get())
+    simulador.perfB[1] = float(desvioPerfB.get())
+    simulador.env[0] = float(mediaEnv.get())
+    simulador.env[1] = float(desvioEnv.get())
+    simulador.n_ser_perfA = float(nServPerfA.get())
+    simulador.n_ser_polA = float(nServPolA.get())
+    simulador.n_ser_perfB = float(nServPerfB.get())
+    simulador.n_ser_polB = float(nServPolB.get())
+    simulador.n_ser_env = float(nServEnv.get())
+    simulador.polA[0] = float(mediaPolA.get())
+    simulador.polA[1] = float(desvioPolA.get())
+    simulador.polB[0] = float(mediaPolB.get())
+    simulador.polB[1] = float(desvioPolB.get())
+    simulador.t = float(tempo.get())
     simulador.s.executa(simulador.t)
+
+
+    top = Toplevel()
+    top.title("Resultados")
+
+    msg = Message(top, text="\n---FINAL RESULTS PECA A---"+simulador.s.fila_perfuracao_A.relat()+"\n"+simulador.s.fila_polimento_A.relat())
+    msg.pack()
+    msg = Message(top, text="\n---FINAL RESULTS PECA B---" + simulador.s.fila_perfuracao_B.relat()+"\n"+simulador.s.fila_polimento_B.relat())
+    msg.pack()
+    msg = Message(top, text="\n---FINAL RESULTS ENVERNIZAMENTO---" + simulador.s.fila_envernizamento.relat())
+    msg.pack()
+
+    button = Button(top, text="Close", command=top.destroy)
+    button.pack()
 
 
 
@@ -154,6 +170,13 @@ msg.pack()
 nServEnv = StringVar()
 passEntry = Entry(app, textvariable=nServEnv)
 passEntry.insert(0, simulador.n_ser_env)
+passEntry.pack()
+
+msg = Label(app, text="Tempo de Execucao:")
+msg.pack()
+tempo = StringVar()
+passEntry = Entry(app, textvariable=tempo)
+passEntry.insert(0, simulador.t)
 passEntry.pack()
 
 submit = Button(app, text='Save', command=save).pack(side=LEFT)
