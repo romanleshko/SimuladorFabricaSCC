@@ -37,11 +37,11 @@ def save():
     top = Toplevel()
     top.title("Resultados")
 
-    msg = Message(top, text="\n---FINAL RESULTS PECA A---"+simulador.s.fila_perfuracao_A.relat()+"\n"+simulador.s.fila_polimento_A.relat())
+    msg = Message(top, text="\n---FINAL RESULTS PECA A---"+str(simulador.s.fila_perfuracao_A.relat())+"\n"+str(simulador.s.fila_polimento_A.relat()))
     msg.pack()
-    msg = Message(top, text="\n---FINAL RESULTS PECA B---" + simulador.s.fila_perfuracao_B.relat()+"\n"+simulador.s.fila_polimento_B.relat())
+    msg = Message(top, text="\n---FINAL RESULTS PECA B---" + str(simulador.s.fila_perfuracao_B.relat())+"\n"+str(simulador.s.fila_polimento_B.relat()))
     msg.pack()
-    msg = Message(top, text="\n---FINAL RESULTS ENVERNIZAMENTO---" + simulador.s.fila_envernizamento.relat())
+    msg = Message(top, text="\n---FINAL RESULTS ENVERNIZAMENTO---" + str(simulador.s.fila_envernizamento.relat()))
     msg.pack()
 
     button = Button(top, text="Close", command=top.destroy)
