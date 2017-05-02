@@ -119,3 +119,5 @@ class Fila:
         print("Numero de clientes atendidos", self.atendidos)
         print("Numero de clientes na fila", len(self.fila))
         print('Estado da fila: ', self.estado)
+
+        return "\nFila "+str(self.nome)+"\nTempo medio de espera"+str(temp_med_fila)+"\nComp. medio da fila"+str(comp_med_fila)+"\nUtilizacao do servico"+str(utilizacao_serv)+"\nTempo de simulacao"+str(self.simulator.instant)+"\nNumero de clientes atendidos"+str(self.atendidos)+"\nNumero de clientes na fila"+str(len(self.fila))+'\nEstado da fila: '+str(self.estado)
